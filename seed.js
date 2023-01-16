@@ -1,5 +1,5 @@
 const db = require('./server/db/database');
-const { Students, Campuses } = require('./server/db/models');
+const { Students, Campuses } = require('./server/db/');
 
 //console.log('this is student before', Students);
 const studentsArr = [
@@ -79,7 +79,7 @@ const seed = async () => {
 
     await Promise.all([
       moe.setCampus(nyu),
-      lucy.setCampus(nycct),
+      lucy.setCampus(nyu),
       ethyl.setCampus(city),
       larry.setCampus(nyit),
     ]);

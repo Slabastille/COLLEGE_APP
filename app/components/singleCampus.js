@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getCampus } from '../reducers';
-import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
 class singleCampus extends React.Component {
   componentDidMount() {
     this.props.loadCampus(this.props.match.params.id);
   }
   render() {
-    const { name, imgUrl, address, description } = this.props.campus;
-    // console.log('this is campus', this.props.campus);
+    const { campus } = this.props;
+    const { name, imgUrl, address, description, students } = campus;
+
     return (
       <div>
         <div>here is the campus</div>
@@ -18,6 +19,19 @@ class singleCampus extends React.Component {
         <div>{imgUrl}</div>
         <div>{address}</div>
         <div>{description}</div>
+        <div> students</div>
+
+        {campus.students &&
+          campus.students.length > 0 &&
+          campus.students.map((student) => {
+            return (
+              <div key={student.id}>
+                <NavLink to={`/students/${student.id}`}>
+                  {student.firstName}
+                </NavLink>
+              </div>
+            );
+          })}
       </div>
     );
   }

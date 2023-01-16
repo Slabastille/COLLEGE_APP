@@ -561,9 +561,7 @@ var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-r
 
 var _reducers = __webpack_require__(/*! ../reducers */ "./app/reducers/index.js");
 
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -590,12 +588,13 @@ var singleCampus = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _props$campus = this.props.campus,
-          name = _props$campus.name,
-          imgUrl = _props$campus.imgUrl,
-          address = _props$campus.address,
-          description = _props$campus.description;
-      // console.log('this is campus', this.props.campus);
+      var campus = this.props.campus;
+      var name = campus.name,
+          imgUrl = campus.imgUrl,
+          address = campus.address,
+          description = campus.description,
+          students = campus.students;
+
 
       return _react2.default.createElement(
         'div',
@@ -629,7 +628,23 @@ var singleCampus = function (_React$Component) {
           'div',
           null,
           description
-        )
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          ' students'
+        ),
+        campus.students && campus.students.length > 0 && campus.students.map(function (student) {
+          return _react2.default.createElement(
+            'div',
+            { key: student.id },
+            _react2.default.createElement(
+              _reactRouterDom.NavLink,
+              { to: '/students/' + student.id },
+              student.firstName
+            )
+          );
+        })
       );
     }
   }]);
