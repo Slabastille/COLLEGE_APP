@@ -1,0 +1,16 @@
+* {
+  background-color: #ffd300;
+  font-size: medium;
+}
+
+.header {
+  text-align: center;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.headerItems {
+  text-decoration: none;
+  padding: 10px;
+  font-size: large;
+}
