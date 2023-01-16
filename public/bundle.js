@@ -181,11 +181,15 @@ var _Typography = __webpack_require__(/*! @material-ui/core/Typography */ "./nod
 
 var _Typography2 = _interopRequireDefault(_Typography);
 
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //import students from '../../server/db/models/students';
 
-var Header = function Header() {
+var Header = function Header(props) {
+  var numStudents = props.students.length;
+  var numCampuses = props.campuses.length;
   return _react2.default.createElement(
     _AppBar2.default,
     { position: 'static' },
@@ -215,6 +219,12 @@ var Header = function Header() {
             _Typography2.default,
             { gutterBottom: true, variant: 'h6' },
             'Students'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'counters' },
+            ' ',
+            numStudents
           )
         )
       ),
@@ -228,19 +238,26 @@ var Header = function Header() {
             _Typography2.default,
             { gutterBottom: true, variant: 'h6' },
             'Campuses'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'counters' },
+            ' ',
+            numCampuses
           )
         )
       )
     )
   );
 };
-// const mapStateToProps = (state) => {
-//   return {
-//     students: state.students,
-//     campuses: state.campuses,
-//   };
-// };
-exports.default = Header;
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    students: state.students,
+    campuses: state.campuses
+  };
+};
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(Header);
 
 /***/ }),
 
@@ -19178,7 +19195,7 @@ module.exports = __webpack_require__(/*! ./modules/_core */ "./node_modules/core
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, ".main {\n  font-size: medium;\n  background-color: #ffffff;\n}\n\n.header {\n  text-align: center;\n  justify-content: space-evenly;\n  align-items: center;\n}\n\n.headerItems {\n  color: white;\n  padding: 10px;\n  text-decoration: none;\n  text-transform: uppercase;\n}\n.toolbar {\n  background-color: #ffd300;\n  justify-content: space-evenly;\n  align-items: center;\n}\n", ""]);
+exports.push([module.i, ".main {\n  font-size: medium;\n  background-color: #ffffff;\n}\n\n.header {\n  text-align: center;\n  justify-content: space-evenly;\n  align-items: center;\n}\n.counters {\n  color: black;\n}\n\n.headerItems {\n  color: white;\n  padding: 10px;\n  text-decoration: none;\n  text-transform: uppercase;\n}\n.toolbar {\n  background-color: #ffd300;\n  justify-content: space-evenly;\n  align-items: center;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
