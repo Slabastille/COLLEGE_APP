@@ -19,7 +19,7 @@ class Root extends React.Component {
       <Router>
         <div>
           <Header />
-          <main>
+          <main className="main">
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/students" component={Students} />
