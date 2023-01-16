@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Home from './Home';
+import Header from './Header';
 
 class Root extends React.Component {
   // componentDidMount() {
@@ -13,7 +14,7 @@ class Root extends React.Component {
     return (
       <Router>
         <div>
-          {/* <Header /> */}
+          <Header />
           <main>
             <Switch>
               <Route exact path="/" component={Home} />
