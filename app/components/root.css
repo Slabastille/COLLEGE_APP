@@ -23,3 +23,11 @@
   justify-content: space-evenly;
   align-items: center;
 }
+.card {
+  background-color: aqua;
+  padding: 10px;
+}
+.space {
+  background-color: #ffffff;
+  padding: 5px;
+}

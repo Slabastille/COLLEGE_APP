@@ -3,13 +3,25 @@ const { Students } = require('../db/index');
 
 router.get('/', async (req, res) => {
   try {
-    const studentss = await Students.findAll();
+    const students = await Students.findAll();
     //console.log('here is students', studentss);
-    res.send(studentss);
+    res.send(students);
   } catch (err) {
     res
       .status(500)
       .json({ message: 'Error getting students', error: err.message });
+  }
+});
+router.get('/:id', async (req, res) => {
+  try {
+    const student = await Students.findByPk(req.params.id);
+    //console.log('here is students', studentss);
+    res.send(student);
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error getting the single student',
+      error: err.message,
+    });
   }
 });
 module.exports = router;

@@ -106,6 +106,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function Campuses(props) {
@@ -129,7 +131,20 @@ function Campuses(props) {
         return _react2.default.createElement(
           'div',
           { key: campus.id },
-          campus.name
+          _react2.default.createElement(
+            'div',
+            { className: 'card' },
+            _react2.default.createElement(
+              _reactRouterDom.NavLink,
+              { to: '/campuses/' + campus.id },
+              campus.name
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'space' },
+            ' - '
+          )
         );
       })
     )
@@ -313,6 +328,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Students = function Students(props) {
@@ -336,7 +353,25 @@ var Students = function Students(props) {
         return _react2.default.createElement(
           'div',
           { key: student.id },
-          student.firstName
+          _react2.default.createElement(
+            'div',
+            { className: 'card' },
+            _react2.default.createElement(
+              _reactRouterDom.NavLink,
+              { to: '/students/' + student.id },
+              student.firstName
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            'allStudentsArr'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'space' },
+            ' - '
+          )
         );
       })
     )
@@ -344,7 +379,8 @@ var Students = function Students(props) {
 };
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    students: state.students
+    students: state.students,
+    campuses: state.campuses
   };
 };
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(Students);
@@ -423,6 +459,14 @@ var _Campuses = __webpack_require__(/*! ./Campuses */ "./app/components/Campuses
 
 var _Campuses2 = _interopRequireDefault(_Campuses);
 
+var _singleStudent = __webpack_require__(/*! ./singleStudent */ "./app/components/singleStudent.js");
+
+var _singleStudent2 = _interopRequireDefault(_singleStudent);
+
+var _singleCampus = __webpack_require__(/*! ./singleCampus */ "./app/components/singleCampus.js");
+
+var _singleCampus2 = _interopRequireDefault(_singleCampus);
+
 var _reducers = __webpack_require__(/*! ../reducers */ "./app/reducers/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -466,7 +510,9 @@ var Root = function (_React$Component) {
               null,
               _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
               _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/students', component: _Students2.default }),
-              _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/campuses', component: _Campuses2.default })
+              _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/campuses', component: _Campuses2.default }),
+              _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/students/:id', component: _singleStudent2.default }),
+              _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/campuses/:id', component: _singleCampus2.default })
             )
           )
         )
@@ -488,6 +534,245 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(Root);
+
+/***/ }),
+
+/***/ "./app/components/singleCampus.js":
+/*!****************************************!*\
+  !*** ./app/components/singleCampus.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _reducers = __webpack_require__(/*! ../reducers */ "./app/reducers/index.js");
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var singleCampus = function (_React$Component) {
+  _inherits(singleCampus, _React$Component);
+
+  function singleCampus() {
+    _classCallCheck(this, singleCampus);
+
+    return _possibleConstructorReturn(this, (singleCampus.__proto__ || Object.getPrototypeOf(singleCampus)).apply(this, arguments));
+  }
+
+  _createClass(singleCampus, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.loadCampus(this.props.match.params.id);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props$campus = this.props.campus,
+          name = _props$campus.name,
+          imgUrl = _props$campus.imgUrl,
+          address = _props$campus.address,
+          description = _props$campus.description;
+      // console.log('this is campus', this.props.campus);
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'div',
+          null,
+          'here is the campus'
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          ' --- '
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          name
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          imgUrl
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          address
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          description
+        )
+      );
+    }
+  }]);
+
+  return singleCampus;
+}(_react2.default.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    campus: state.campus
+  };
+};
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    loadCampus: function loadCampus(id) {
+      return dispatch((0, _reducers.getCampus)(id));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(singleCampus);
+
+/***/ }),
+
+/***/ "./app/components/singleStudent.js":
+/*!*****************************************!*\
+  !*** ./app/components/singleStudent.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _reducers = __webpack_require__(/*! ../reducers */ "./app/reducers/index.js");
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var singleStudent = function (_React$Component) {
+  _inherits(singleStudent, _React$Component);
+
+  function singleStudent() {
+    _classCallCheck(this, singleStudent);
+
+    return _possibleConstructorReturn(this, (singleStudent.__proto__ || Object.getPrototypeOf(singleStudent)).apply(this, arguments));
+  }
+
+  _createClass(singleStudent, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.loadStudent(this.props.match.params.id);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props$student = this.props.student,
+          id = _props$student.id,
+          firstName = _props$student.firstName,
+          lastName = _props$student.lastName,
+          email = _props$student.email,
+          imgUrl = _props$student.imgUrl;
+
+      console.log('yojcdsvisdvh', this.props.student);
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'div',
+          null,
+          'here is the student'
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          ' --- '
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          lastName
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          firstName
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          email
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          imgUrl
+        )
+      );
+    }
+  }]);
+
+  return singleStudent;
+}(_react2.default.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    student: state.student
+  };
+};
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    loadStudent: function loadStudent(id) {
+      return dispatch((0, _reducers.getStudent)(id));
+    }
+  };
+};
+
+// singleStudent.propTypes = {
+//   classes: PropTypes.object.isRequired,
+// };
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(singleStudent);
 
 /***/ }),
 
@@ -542,7 +827,7 @@ _reactDom2.default.render(_react2.default.createElement(
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getCampuses = exports.getStudents = undefined;
+exports.getCampus = exports.getStudent = exports.getCampuses = exports.getStudents = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -554,6 +839,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var GET_STUDENTS = 'GET_STUDENTS';
 var GET_CAMPUSES = 'GET_CAMPUSES';
+
+var GET_STUDENT = 'GET_STUDENT';
+var GET_CAMPUS = 'GET_CAMPUS';
 
 // -- actions --
 var _getStudents = function _getStudents(students) {
@@ -569,6 +857,19 @@ var _getCampuses = function _getCampuses(campuses) {
   };
 };
 
+var _getStudent = function _getStudent(student) {
+  return {
+    type: GET_STUDENT,
+    student: student
+  };
+};
+var _getCampus = function _getCampus(campus) {
+  return {
+    type: GET_CAMPUS,
+    campus: campus
+  };
+};
+
 // -- thunks -- (pre results)
 var getStudents = exports.getStudents = function getStudents() {
   return function (dispatch) {
@@ -579,7 +880,6 @@ var getStudents = exports.getStudents = function getStudents() {
     });
   };
 };
-
 var getCampuses = exports.getCampuses = function getCampuses() {
   return function (dispatch) {
     _axios2.default.get('/api/campuses').then(function (res) {
@@ -590,9 +890,30 @@ var getCampuses = exports.getCampuses = function getCampuses() {
   };
 };
 
+var getStudent = exports.getStudent = function getStudent(id) {
+  return function (dispatch) {
+    _axios2.default.get('/api/students/' + id).then(function (res) {
+      dispatch(_getStudent(res.data));
+    }).catch(function (err) {
+      console.log('Could not get single student', err.message);
+    });
+  };
+};
+var getCampus = exports.getCampus = function getCampus(id) {
+  return function (dispatch) {
+    _axios2.default.get('/api/campuses/' + id).then(function (res) {
+      dispatch(_getCampus(res.data));
+    }).catch(function (err) {
+      console.log('Could not get single campus', err.message);
+    });
+  };
+};
+
 var initialState = {
   students: [],
-  campuses: []
+  campuses: [],
+  student: {},
+  campus: {}
 };
 
 exports.default = function () {
@@ -604,6 +925,10 @@ exports.default = function () {
       return _extends({}, state, { students: action.students });
     case GET_CAMPUSES:
       return _extends({}, state, { campuses: action.campuses });
+    case GET_STUDENT:
+      return _extends({}, state, { student: action.student });
+    case GET_CAMPUS:
+      return _extends({}, state, { campus: action.campus });
     default:
       return state;
   }
@@ -19195,7 +19520,7 @@ module.exports = __webpack_require__(/*! ./modules/_core */ "./node_modules/core
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, ".main {\n  font-size: medium;\n  background-color: #ffffff;\n}\n\n.header {\n  text-align: center;\n  justify-content: space-evenly;\n  align-items: center;\n}\n.counters {\n  color: black;\n}\n\n.headerItems {\n  color: white;\n  padding: 10px;\n  text-decoration: none;\n  text-transform: uppercase;\n}\n.toolbar {\n  background-color: #ffd300;\n  justify-content: space-evenly;\n  align-items: center;\n}\n", ""]);
+exports.push([module.i, ".main {\n  font-size: medium;\n  background-color: #ffffff;\n}\n\n.header {\n  text-align: center;\n  justify-content: space-evenly;\n  align-items: center;\n}\n.counters {\n  color: black;\n}\n\n.headerItems {\n  color: white;\n  padding: 10px;\n  text-decoration: none;\n  text-transform: uppercase;\n}\n.toolbar {\n  background-color: #ffd300;\n  justify-content: space-evenly;\n  align-items: center;\n}\n.card {\n  background-color: aqua;\n  padding: 10px;\n}\n.space {\n  background-color: #ffffff;\n  padding: 5px;\n}\n", ""]);
 // Exports
 module.exports = exports;
 

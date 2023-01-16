@@ -13,4 +13,17 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/:id', async (req, res) => {
+  try {
+    const campus = await Campuses.findByPk(req.params.id);
+    //console.log('here is campus', campussss);
+    res.send(campus);
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error getting the single campus',
+      error: err.message,
+    });
+  }
+});
+
 module.exports = router;
