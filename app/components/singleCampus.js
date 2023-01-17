@@ -13,13 +13,14 @@ class singleCampus extends React.Component {
 
     return (
       <div>
-        <div>here is the campus</div>
+        <h1>CAMPUS INFO</h1>
         <div> --- </div>
-        <div>{name}</div>
-        <div>{imgUrl}</div>
-        <div>{address}</div>
+        <img src={imgUrl} />
+        <div>name: {name}</div>
+        <div>address: {address}</div>
         <div>{description}</div>
-        <div> students</div>
+        <div>---</div>
+        <h3> students</h3>
 
         {campus.students &&
           campus.students.length > 0 &&

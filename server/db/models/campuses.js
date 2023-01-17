@@ -9,7 +9,7 @@ module.exports = db.define('campuses', {
       notEmpty: true,
     },
   },
-  imageUrl: {
+  imgUrl: {
     type: Sequelize.STRING,
     allowNull: true,
   },
@@ -19,9 +19,9 @@ module.exports = db.define('campuses', {
     validate: {
       notEmpty: true,
     },
-    description: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: false,
   },
 });

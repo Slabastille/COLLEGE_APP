@@ -7,16 +7,20 @@ function Campuses(props) {
   const { deleteCampus, campuses } = props;
   return (
     <div>
-      <div>Here are the campuses</div>
+      <h1>HERE ARE THE CAMPUSES</h1>
       <div> --- </div>
       <div>
         {campuses.map((campus) => {
           return (
             <div key={campus.id}>
+              <img src={campus.imgUrl} />
               <div className="card">
                 <NavLink to={`/campuses/${campus.id}`}>{campus.name}</NavLink>
                 <div> - </div>
+                <div>{campus.description}</div>
                 <div>{campus.address}</div>
+                <div>Students Enrolled: {campus.students.length}</div>
+
                 {/* <div>{campus.description}</div> */}
               </div>
               <button onClick={() => deleteCampus(campus.id)}>DELETE</button>
@@ -24,6 +28,9 @@ function Campuses(props) {
             </div>
           );
         })}
+      </div>
+      <div>
+        <NavLink to="/campusCreation">CLICK HERE TO CREATE A CAMPUS</NavLink>
       </div>
     </div>
   );

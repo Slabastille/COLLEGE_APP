@@ -9,6 +9,8 @@ import Campuses from './Campuses';
 import singleStudent from './singleStudent';
 import singleCampus from './singleCampus';
 import { getStudents, getCampuses } from '../reducers';
+import campusCreation from './campusCreation';
+import studentCreation from './studentCreation';
 
 class Root extends React.Component {
   componentDidMount() {
@@ -19,7 +21,7 @@ class Root extends React.Component {
   render() {
     return (
       <Router>
-        <div>
+        <div className="aboveMain">
           <Header />
           <main className="main">
             <Switch>
@@ -28,6 +30,12 @@ class Root extends React.Component {
               <Route exact path="/campuses" component={Campuses} />
               <Route exact path="/students/:id" component={singleStudent} />
               <Route exact path="/campuses/:id" component={singleCampus} />
+              <Route exact path="/campusCreation" component={campusCreation} />
+              <Route
+                exact
+                path="/studentCreation"
+                component={studentCreation}
+              />
             </Switch>
           </main>
         </div>

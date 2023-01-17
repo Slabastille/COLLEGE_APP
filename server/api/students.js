@@ -38,4 +38,17 @@ router.delete('/:id', async (req, res, next) => {
   }
 });
 
+//create one student
+router.post('/', async (req, res) => {
+  try {
+    const student = await Students.create(req.body);
+    res.send(student);
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error creating the student',
+      error: err.message,
+    });
+  }
+});
+
 module.exports = router;

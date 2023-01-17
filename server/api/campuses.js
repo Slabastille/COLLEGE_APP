@@ -39,5 +39,17 @@ router.delete('/:id', async (req, res, next) => {
     next(err);
   }
 });
+//create one campus
+router.post('/', async (req, res) => {
+  try {
+    const campus = await Campuses.create(req.body);
+    res.send(campus);
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error creating the campus',
+      error: err.message,
+    });
+  }
+});
 
 module.exports = router;

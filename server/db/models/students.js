@@ -23,7 +23,7 @@ module.exports = db.define('students', {
       notEmpty: true,
     },
   },
-  imageUrl: {
+  imgUrl: {
     type: Sequelize.STRING,
     allowNull: true,
   },

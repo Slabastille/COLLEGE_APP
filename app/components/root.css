@@ -1,8 +1,10 @@
 .main {
   font-size: medium;
-  background-color: #ffffff;
 }
-
+.homePage {
+  align-items: center;
+  text-align: center;
+}
 .header {
   text-align: center;
   justify-content: space-evenly;

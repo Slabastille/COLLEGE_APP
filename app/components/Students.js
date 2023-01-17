@@ -7,7 +7,7 @@ const Students = (props) => {
   const { deleteStudent, students } = props;
   return (
     <div>
-      <h1>Here ARE STUDENTS</h1>
+      <h1>HERE ARE STUDENTS</h1>
       <div> --- </div>
       <div>
         {students.map((student) => {
@@ -18,17 +18,19 @@ const Students = (props) => {
                   <div>First Name: {student.firstName}</div>
                   <div>Last Name: {student.lastName}</div>
                 </NavLink>
+                <img src={student.imgUrl} />
                 <div>Email: {student.email}</div>
-
                 <div>GPA: {student.gpa}</div>
 
                 <div>-</div>
                 <div>School Currently Attending</div>
-                <NavLink to={`/campuses/${student.campus.id}`}>
-                  <div>
-                    {student.campus && <div> {student.campus.name}</div>}
-                  </div>
-                </NavLink>
+                <div>
+                  {student.campus && (
+                    <NavLink to={`/campuses/${student.campus.id}`}>
+                      <div> {student.campus.name}</div>
+                    </NavLink>
+                  )}
+                </div>
               </div>
               <button onClick={() => deleteStudent(student.id)}>DELETE</button>
 
@@ -36,6 +38,9 @@ const Students = (props) => {
             </div>
           );
         })}
+      </div>
+      <div>
+        <NavLink to="/studentCreation">CLICK HERE TO CREATE A STUDENT</NavLink>
       </div>
     </div>
   );

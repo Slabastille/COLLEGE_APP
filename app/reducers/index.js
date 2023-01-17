@@ -9,6 +9,9 @@ const GET_CAMPUS = 'GET_CAMPUS';
 const DELETE_CAMPUS = 'DELETE_CAMPUS';
 const DELETE_STUDENT = 'DELETE_STUDENT';
 
+const CREATE_STUDENT = 'CREATE_STUDENT';
+const CREATE_CAMPUS = 'CREATE_CAMPUS';
+
 // -- actions --
 const _getStudents = (students) => {
   return {
@@ -47,6 +50,19 @@ const _deleteStudent = (student) => {
     student,
   };
 };
+const _createStudent = (student) => {
+  return {
+    type: CREATE_STUDENT,
+    student,
+  };
+};
+const _createCampus = (campus) => {
+  return {
+    type: CREATE_CAMPUS,
+    campus,
+  };
+};
+
 // -- thunks -- (pre results)
 export const getStudents = () => {
   return (dispatch) => {
@@ -111,6 +127,20 @@ export const deleteStudent = (id, history) => {
     history.push('/students');
   };
 };
+export const createStudent = (student, history) => {
+  return async (dispatch) => {
+    const { data: created } = await axios.post('/api/students', student);
+    dispatch(_createStudent(created));
+    history.push('/');
+  };
+};
+export const createCampus = (campus, history) => {
+  return async (dispatch) => {
+    const { data: created } = await axios.post('/api/campuses', campus);
+    dispatch(_createCampus(created));
+    history.push('/');
+  };
+};
 const initialState = {
   students: [],
   campuses: [],
@@ -118,6 +148,7 @@ const initialState = {
   campus: {},
 };
 
+// eslint-disable-next-line complexity
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_STUDENTS:
@@ -141,6 +172,11 @@ export default (state = initialState, action) => {
         (student) => student.id !== action.student.id
       );
       return { ...state, students: [...newStudentList] };
+    case CREATE_STUDENT:
+      return { ...state, student: action.student };
+    case CREATE_CAMPUS:
+      return { ...state, campus: action.campus.data };
+
     default:
       return state;
   }
