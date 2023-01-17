@@ -143,6 +143,16 @@ function Campuses(props) {
               _reactRouterDom.NavLink,
               { to: '/campuses/' + campus.id },
               campus.name
+            ),
+            _react2.default.createElement(
+              'div',
+              null,
+              ' - '
+            ),
+            _react2.default.createElement(
+              'div',
+              null,
+              campus.address
             )
           ),
           _react2.default.createElement(
@@ -362,9 +372,9 @@ var Students = function Students(props) {
     'div',
     null,
     _react2.default.createElement(
-      'div',
+      'h1',
       null,
-      'here is students'
+      'Here ARE STUDENTS'
     ),
     _react2.default.createElement(
       'div',
@@ -384,7 +394,54 @@ var Students = function Students(props) {
             _react2.default.createElement(
               _reactRouterDom.NavLink,
               { to: '/students/' + student.id },
-              student.firstName
+              _react2.default.createElement(
+                'div',
+                null,
+                'First Name: ',
+                student.firstName
+              ),
+              _react2.default.createElement(
+                'div',
+                null,
+                'Last Name: ',
+                student.lastName
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              null,
+              'Email: ',
+              student.email
+            ),
+            _react2.default.createElement(
+              'div',
+              null,
+              'GPA: ',
+              student.gpa
+            ),
+            _react2.default.createElement(
+              'div',
+              null,
+              '-'
+            ),
+            _react2.default.createElement(
+              'div',
+              null,
+              'School Currently Attending'
+            ),
+            _react2.default.createElement(
+              _reactRouterDom.NavLink,
+              { to: '/campuses/' + student.campus.id },
+              _react2.default.createElement(
+                'div',
+                null,
+                student.campus && _react2.default.createElement(
+                  'div',
+                  null,
+                  ' ',
+                  student.campus.name
+                )
+              )
             )
           ),
           _react2.default.createElement(
@@ -393,11 +450,6 @@ var Students = function Students(props) {
                 return deleteStudent(student.id);
               } },
             'DELETE'
-          ),
-          _react2.default.createElement(
-            'div',
-            null,
-            'allStudentsArr'
           ),
           _react2.default.createElement(
             'div',

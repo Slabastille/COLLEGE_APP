@@ -7,7 +7,7 @@ const Students = (props) => {
   const { deleteStudent, students } = props;
   return (
     <div>
-      <div>here is students</div>
+      <h1>Here ARE STUDENTS</h1>
       <div> --- </div>
       <div>
         {students.map((student) => {
@@ -15,12 +15,23 @@ const Students = (props) => {
             <div key={student.id}>
               <div className="card">
                 <NavLink to={`/students/${student.id}`}>
-                  {student.firstName}
+                  <div>First Name: {student.firstName}</div>
+                  <div>Last Name: {student.lastName}</div>
+                </NavLink>
+                <div>Email: {student.email}</div>
+
+                <div>GPA: {student.gpa}</div>
+
+                <div>-</div>
+                <div>School Currently Attending</div>
+                <NavLink to={`/campuses/${student.campus.id}`}>
+                  <div>
+                    {student.campus && <div> {student.campus.name}</div>}
+                  </div>
                 </NavLink>
               </div>
               <button onClick={() => deleteStudent(student.id)}>DELETE</button>
 
-              <div>allStudentsArr</div>
               <div className="space"> - </div>
             </div>
           );
