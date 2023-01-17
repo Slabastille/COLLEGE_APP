@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Campuses, Students } = require('../db/index');
 
+//retrieve all campuses
 router.get('/', async (req, res) => {
   try {
     const campusess = await Campuses.findAll({ include: [Students] });
@@ -12,7 +13,7 @@ router.get('/', async (req, res) => {
       .json({ message: 'Error getting the campuses', error: err.message });
   }
 });
-
+//retrieve one campus
 router.get('/:id', async (req, res) => {
   try {
     const campus = await Campuses.findByPk(req.params.id, {
@@ -25,6 +26,17 @@ router.get('/:id', async (req, res) => {
       message: 'Error getting the single campus',
       error: err.message,
     });
+  }
+});
+
+//delete one campus
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const campus = await Campuses.findByPk(req.params.id);
+    await campus.destroy();
+    res.send(campus);
+  } catch (err) {
+    next(err);
   }
 });
 

@@ -108,9 +108,14 @@ var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-r
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
+var _reducers = __webpack_require__(/*! ../reducers */ "./app/reducers/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function Campuses(props) {
+  var deleteCampus = props.deleteCampus,
+      campuses = props.campuses;
+
   return _react2.default.createElement(
     'div',
     null,
@@ -127,7 +132,7 @@ function Campuses(props) {
     _react2.default.createElement(
       'div',
       null,
-      props.campuses.map(function (campus) {
+      campuses.map(function (campus) {
         return _react2.default.createElement(
           'div',
           { key: campus.id },
@@ -139,6 +144,13 @@ function Campuses(props) {
               { to: '/campuses/' + campus.id },
               campus.name
             )
+          ),
+          _react2.default.createElement(
+            'button',
+            { onClick: function onClick() {
+                return deleteCampus(campus.id);
+              } },
+            'DELETE'
           ),
           _react2.default.createElement(
             'div',
@@ -156,7 +168,15 @@ var mapStateToProps = function mapStateToProps(state) {
     campuses: state.campuses
   };
 };
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(Campuses);
+var mapDispatchToProps = function mapDispatchToProps(dispatch, _ref) {
+  var history = _ref.history;
+
+  return { deleteCampus: function deleteCampus(id) {
+      return dispatch((0, _reducers.deleteCampus)(id, history));
+    } };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Campuses);
 
 /***/ }),
 
@@ -330,9 +350,14 @@ var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-r
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
+var _reducers = __webpack_require__(/*! ../reducers */ "./app/reducers/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Students = function Students(props) {
+  var deleteStudent = props.deleteStudent,
+      students = props.students;
+
   return _react2.default.createElement(
     'div',
     null,
@@ -349,7 +374,7 @@ var Students = function Students(props) {
     _react2.default.createElement(
       'div',
       null,
-      props.students.map(function (student) {
+      students.map(function (student) {
         return _react2.default.createElement(
           'div',
           { key: student.id },
@@ -361,6 +386,13 @@ var Students = function Students(props) {
               { to: '/students/' + student.id },
               student.firstName
             )
+          ),
+          _react2.default.createElement(
+            'button',
+            { onClick: function onClick() {
+                return deleteStudent(student.id);
+              } },
+            'DELETE'
           ),
           _react2.default.createElement(
             'div',
@@ -383,7 +415,15 @@ var mapStateToProps = function mapStateToProps(state) {
     campuses: state.campuses
   };
 };
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(Students);
+var mapDispatchToProps = function mapDispatchToProps(dispatch, _ref) {
+  var history = _ref.history;
+
+  return { deleteStudent: function deleteStudent(id) {
+      return dispatch((0, _reducers.deleteStudent)(id, history));
+    } };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Students);
 
 /***/ }),
 
@@ -842,7 +882,7 @@ _reactDom2.default.render(_react2.default.createElement(
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getCampus = exports.getStudent = exports.getCampuses = exports.getStudents = undefined;
+exports.deleteStudent = exports.deleteCampus = exports.getCampus = exports.getStudent = exports.getCampuses = exports.getStudents = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -852,11 +892,18 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var GET_STUDENTS = 'GET_STUDENTS';
 var GET_CAMPUSES = 'GET_CAMPUSES';
 
 var GET_STUDENT = 'GET_STUDENT';
 var GET_CAMPUS = 'GET_CAMPUS';
+
+var DELETE_CAMPUS = 'DELETE_CAMPUS';
+var DELETE_STUDENT = 'DELETE_STUDENT';
 
 // -- actions --
 var _getStudents = function _getStudents(students) {
@@ -884,7 +931,18 @@ var _getCampus = function _getCampus(campus) {
     campus: campus
   };
 };
-
+var _deleteCampus = function _deleteCampus(campus) {
+  return {
+    type: DELETE_CAMPUS,
+    campus: campus
+  };
+};
+var _deleteStudent = function _deleteStudent(student) {
+  return {
+    type: DELETE_STUDENT,
+    student: student
+  };
+};
 // -- thunks -- (pre results)
 var getStudents = exports.getStudents = function getStudents() {
   return function (dispatch) {
@@ -923,7 +981,70 @@ var getCampus = exports.getCampus = function getCampus(id) {
     });
   };
 };
+var deleteCampus = exports.deleteCampus = function deleteCampus(id, history) {
+  return function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(dispatch) {
+      var _ref2, campus;
 
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return _axios2.default.delete('/api/campuses/' + id);
+
+            case 2:
+              _ref2 = _context.sent;
+              campus = _ref2.data;
+
+              dispatch(_deleteCampus(campus));
+              history.push('/campuses');
+
+            case 6:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, undefined);
+    }));
+
+    return function (_x) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+};
+var deleteStudent = exports.deleteStudent = function deleteStudent(id, history) {
+  return function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(dispatch) {
+      var _ref4, student;
+
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return _axios2.default.delete('/api/students/' + id);
+
+            case 2:
+              _ref4 = _context2.sent;
+              student = _ref4.data;
+
+              dispatch(_deleteStudent(student));
+              history.push('/students');
+
+            case 6:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, undefined);
+    }));
+
+    return function (_x2) {
+      return _ref3.apply(this, arguments);
+    };
+  }();
+};
 var initialState = {
   students: [],
   campuses: [],
@@ -944,6 +1065,19 @@ exports.default = function () {
       return _extends({}, state, { student: action.student });
     case GET_CAMPUS:
       return _extends({}, state, { campus: action.campus });
+    // eslint-disable-next-line no-case-declarations
+    case DELETE_CAMPUS:
+      var newCampusList = state.campuses.filter(function (campus) {
+        return campus.id !== action.campus.id;
+      });
+      return _extends({}, state, { campuses: [].concat(_toConsumableArray(newCampusList)) });
+
+    // eslint-disable-next-line no-case-declarations
+    case DELETE_STUDENT:
+      var newStudentList = state.students.filter(function (student) {
+        return student.id !== action.student.id;
+      });
+      return _extends({}, state, { students: [].concat(_toConsumableArray(newStudentList)) });
     default:
       return state;
   }

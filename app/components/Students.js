@@ -1,14 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { deleteStudent } from '../reducers';
 
 const Students = (props) => {
+  const { deleteStudent, students } = props;
   return (
     <div>
       <div>here is students</div>
       <div> --- </div>
       <div>
-        {props.students.map((student) => {
+        {students.map((student) => {
           return (
             <div key={student.id}>
               <div className="card">
@@ -16,6 +18,8 @@ const Students = (props) => {
                   {student.firstName}
                 </NavLink>
               </div>
+              <button onClick={() => deleteStudent(student.id)}>DELETE</button>
+
               <div>allStudentsArr</div>
               <div className="space"> - </div>
             </div>
@@ -31,4 +35,8 @@ const mapStateToProps = (state) => {
     campuses: state.campuses,
   };
 };
-export default connect(mapStateToProps)(Students);
+const mapDispatchToProps = (dispatch, { history }) => {
+  return { deleteStudent: (id) => dispatch(deleteStudent(id, history)) };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Students);

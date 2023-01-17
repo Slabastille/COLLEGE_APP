@@ -1,19 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { deleteCampus } from '../reducers';
 
 function Campuses(props) {
+  const { deleteCampus, campuses } = props;
   return (
     <div>
       <div>Here are the campuses</div>
       <div> --- </div>
       <div>
-        {props.campuses.map((campus) => {
+        {campuses.map((campus) => {
           return (
             <div key={campus.id}>
               <div className="card">
                 <NavLink to={`/campuses/${campus.id}`}>{campus.name}</NavLink>
               </div>
+              <button onClick={() => deleteCampus(campus.id)}>DELETE</button>
               <div className="space"> - </div>
             </div>
           );
@@ -28,4 +31,8 @@ const mapStateToProps = (state) => {
     campuses: state.campuses,
   };
 };
-export default connect(mapStateToProps)(Campuses);
+const mapDispatchToProps = (dispatch, { history }) => {
+  return { deleteCampus: (id) => dispatch(deleteCampus(id, history)) };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Campuses);

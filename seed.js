@@ -4,7 +4,7 @@ const { Students, Campuses } = require('./server/db/');
 //console.log('this is student before', Students);
 const studentsArr = [
   {
-    firstName: 'MoeSAMM',
+    firstName: 'Moe',
     lastName: 'Moe',
     email: 'moe@gmail.com',
     imgUrl: null,
@@ -94,4 +94,4 @@ const seed = async () => {
 };
 
 seed();
-// module.exports = { seed };
+//module.exports = { seed };

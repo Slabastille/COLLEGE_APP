@@ -6,6 +6,9 @@ const GET_CAMPUSES = 'GET_CAMPUSES';
 const GET_STUDENT = 'GET_STUDENT';
 const GET_CAMPUS = 'GET_CAMPUS';
 
+const DELETE_CAMPUS = 'DELETE_CAMPUS';
+const DELETE_STUDENT = 'DELETE_STUDENT';
+
 // -- actions --
 const _getStudents = (students) => {
   return {
@@ -32,7 +35,18 @@ const _getCampus = (campus) => {
     campus,
   };
 };
-
+const _deleteCampus = (campus) => {
+  return {
+    type: DELETE_CAMPUS,
+    campus,
+  };
+};
+const _deleteStudent = (student) => {
+  return {
+    type: DELETE_STUDENT,
+    student,
+  };
+};
 // -- thunks -- (pre results)
 export const getStudents = () => {
   return (dispatch) => {
@@ -83,7 +97,20 @@ export const getCampus = (id) => {
       });
   };
 };
-
+export const deleteCampus = (id, history) => {
+  return async (dispatch) => {
+    const { data: campus } = await axios.delete(`/api/campuses/${id}`);
+    dispatch(_deleteCampus(campus));
+    history.push('/campuses');
+  };
+};
+export const deleteStudent = (id, history) => {
+  return async (dispatch) => {
+    const { data: student } = await axios.delete(`/api/students/${id}`);
+    dispatch(_deleteStudent(student));
+    history.push('/students');
+  };
+};
 const initialState = {
   students: [],
   campuses: [],
@@ -101,6 +128,19 @@ export default (state = initialState, action) => {
       return { ...state, student: action.student };
     case GET_CAMPUS:
       return { ...state, campus: action.campus };
+    // eslint-disable-next-line no-case-declarations
+    case DELETE_CAMPUS:
+      const newCampusList = state.campuses.filter(
+        (campus) => campus.id !== action.campus.id
+      );
+      return { ...state, campuses: [...newCampusList] };
+
+    // eslint-disable-next-line no-case-declarations
+    case DELETE_STUDENT:
+      const newStudentList = state.students.filter(
+        (student) => student.id !== action.student.id
+      );
+      return { ...state, students: [...newStudentList] };
     default:
       return state;
   }
